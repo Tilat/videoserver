@@ -1,0 +1,13 @@
+http://erlangcentral.org/wiki/index.php?title=Building_a_Non-blocking_TCP_server_using_OTP_principles
+
+http://zotonic.com/docs/0.9/manuals/cookbook/justenough-otp1.html
+
+https://groups.google.com/forum/#!forum/russian-armstrong-erlang
+
+http://eax.me/erlang-gen-server/
+
+http://rus-linux.net/MyLDP/BOOKS/Architecture-Open-Source-Applications/Vol-1/erlang-5.html
+
+http://erlanger.ru/wiki/index.php/OTP_Gen_Server
+
+http://rus-linux.net/MyLDP/BOOKS/Architecture-Open-Source-Applications/Vol-1/erlang-5.html

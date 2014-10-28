@@ -1,11 +1,12 @@
 {application, videoserver,
  [
-  {description, ""},
+  {description, "Video server application"},
   {vsn, "1"},
   {registered, []},
   {applications, [
                   kernel,
-                  stdlib
+                  stdlib,
+                  sasl
                  ]},
   {mod, { videoserver_app, []}},
   {env, []}
