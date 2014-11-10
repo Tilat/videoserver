@@ -1,0 +1,16 @@
+{application, rtp,
+  [
+    {description, ""},
+    {vsn, "1"},
+    {modules, [
+      rtp_app
+    ]},
+    {registered, []},
+    {applications, [
+      kernel,
+      stdlib,
+      sasl
+    ]},
+    {mod, {rtp_app, []}},
+    {env, []}
+  ]}.

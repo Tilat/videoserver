@@ -11,3 +11,13 @@ http://rus-linux.net/MyLDP/BOOKS/Architecture-Open-Source-Applications/Vol-1/erl
 http://erlanger.ru/wiki/index.php/OTP_Gen_Server
 
 http://rus-linux.net/MyLDP/BOOKS/Architecture-Open-Source-Applications/Vol-1/erlang-5.html
+
+https://github.com/GoogleChrome/webrtc
+
+http://book.itep.ru/4/44/rtp_4492.htm
+
+http://www.csee.umbc.edu/~pmundur/courses/CMSC691C/lab5-kurose-ross.html
+
+http://www.cl.cam.ac.uk/~jac22/books/mm/book/node315.html
+
+http://www.cs.columbia.edu/~hgs/teaching/ais/1998/projects/java_rtp/report.html
