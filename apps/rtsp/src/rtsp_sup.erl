@@ -24,21 +24,22 @@ start_link() ->
 %% ===================================================================
 
 init([]) ->
-    {ok, {
-            {one_for_one, 5, 10},
-            [ {
-                rtsp_connector,
-                {
-                    rtsp_connector,
-                    start_link,
-                    []
-                },
-                permanent,
-                1000,
-                worker,
-                [rtsp_connector]
-              }
-            ]
-        }
+    {ok, Port} = {ok, 8554},    
+    {ok, RTSPSocket} = gen_tcp:listen(Port, [binary, {active, true}]),
+    error_logger:info_msg("Open socket ~p",[RTSPSocket]),
+    spawn_link(fun empty_listeners/0),
+    {ok, {{simple_one_for_one, 60, 3600},
+         [{rtsp_connector,
+            {rtsp_connector, start_link, [RTSPSocket]}, % pass the socket!
+            temporary, 1000, worker, [rtsp_connector]}
+         ]}
     }.
 
+
+start_socket() ->
+    supervisor:start_child(?MODULE, []).
+
+
+empty_listeners() ->
+    [start_socket() || _ <- lists:seq(1,20)],
+ok.
