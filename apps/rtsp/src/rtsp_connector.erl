@@ -65,7 +65,7 @@ handle_info({tcp_error,Socket, _}, State) ->
   {stop, normal, State};
 %% ----------------------------------------
 handle_info({tcp, Socket, String}, Session = #session{socket=Socket} ) ->
-  error_logger:info_msg("rtsp_connector:handle_info - ~p, ~p", [Info, State]),
+  error_logger:info_msg("rtsp_connector:handle_info - ~p, ~p", [String, Session]),
   send(Socket, "response",[]),
   {noreply, State}.
 %% ========================================
@@ -107,5 +107,3 @@ send(Socket, Str, Args) ->
   ok = gen_tcp:send(Socket, io_lib:format(Str ++ "~n", Args)),
   ok = inet:setopts(Socket, [{active, once}]),
   ok.
-send(Socket, Str) ->
-  send(Socket, Str, []).
