@@ -24,7 +24,7 @@
 %% ------------------------------------------------------------------
 
 start_link(Socket) ->
-  error_logger:info_msg("rtsp_connector:start_link: ~p", [Socket]),
+  io:format("rtsp_connector:start_link - ~p", [Socket]),
   gen_server:start_link({local, ?SERVER}, ?MODULE, Socket, []).
 
 %% ------------------------------------------------------------------
@@ -32,14 +32,17 @@ start_link(Socket) ->
 %% ------------------------------------------------------------------
 
 init(Socket) ->
-  error_logger:info_msg("rtsp_connector:init - socket=~p", [Socket]),
+  io:format("rtsp_connector:init - socket=~p", [Socket]),
   gen_server:cast(self(), accept),
   {ok, #session{id = erlang:now(), socket = Socket}}.
 
 
-handle_call(_Request, _From, State) ->
-  error_logger:info_msg("rtsp_connector:handle_call -  ~p, ~p, ~p", [_Request, _From, State]),
+%% ========================================
+handle_call(Req, From, State) ->
+  error_logger:info_msg("rtsp_connector:handle_call -  ~p, ~p, ~p", [Req, From, State]),
   {noreply, State}.
+%% ========================================
+
 
 %% ========================================
 handle_cast(accept, Session = #session{socket = Socket}) ->
@@ -48,21 +51,22 @@ handle_cast(accept, Session = #session{socket = Socket}) ->
   rtsp_sup:start_socket(),
   error_logger:info_msg("rtsp_connector:handle_cast - Got a new incomming connection ~p\n", [AcceptedSocket]),
   inet:setopts(AcceptedSocket, [{active, once}]),
-  {noreply, Session#session{socket = AcceptedSocket}};
-%% ----------------------------------------
-handle_cast(Msg, State) ->
-  error_logger:info_msg("rtsp_connector:handle_cast - ~p, ~p", [Msg, State]),
-  {noreply, State}.
+  {noreply, Session#session{socket = AcceptedSocket}}.
 %% ========================================
 
+
 %% ========================================
-handle_info({tcp, Port, Msg}, Session = #session{socket = Socket}) ->
-  error_logger:info_msg("rtsp_connector:handle_info - port=~p, data=~p", [Port, Msg]),
-  send(Socket, "response"),
-  {noreply, Session};
+handle_info({tcp_closed,Socket}, State) ->
+  error_logger:info_msg("rtsp_connector:handle_info - socket=~p, State=~p", [Socket, State]),
+  {stop, normal, State};
 %% ----------------------------------------
-handle_info(Info, State) ->
+handle_info({tcp_error,Socket, _}, State) ->
+  error_logger:info_msg("rtsp_connector:handle_info - socket=~p, State=~p", [Socket, State]),
+  {stop, normal, State};
+%% ----------------------------------------
+handle_info({tcp, Socket, String}, Session = #session{socket=Socket} ) ->
   error_logger:info_msg("rtsp_connector:handle_info - ~p, ~p", [Info, State]),
+  send(Socket, "response",[]),
   {noreply, State}.
 %% ========================================
 
