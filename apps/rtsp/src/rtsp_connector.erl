@@ -67,7 +67,7 @@ handle_info({tcp_error,Socket, _}, State) ->
 handle_info({tcp, Socket, String}, Session = #session{socket=Socket} ) ->
   error_logger:info_msg("rtsp_connector:handle_info - ~p, ~p", [String, Session]),
   send(Socket, "response",[]),
-  {noreply, State}.
+  {noreply, Session}.
 %% ========================================
 
 
